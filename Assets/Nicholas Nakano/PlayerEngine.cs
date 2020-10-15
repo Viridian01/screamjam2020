@@ -29,6 +29,7 @@ public class PlayerEngine : MonoBehaviour
     private Vector3 acceleration = Vector3.zero;
 
     const float maxAcceleration = 10.0f;
+    const float maxSpeed = 50.0f;
     const float groundAccelerationMultiplier = 10.0f;
     const float surfaceFriction = 0.1f;
 
@@ -70,12 +71,18 @@ public class PlayerEngine : MonoBehaviour
         inputDir = transform.TransformDirection(inputDir);
         inputDir.Normalize();
         acceleration = inputDir * maxAcceleration;
-        acceleration = Vector3.ClampMagnitude(acceleration, maxAcceleration);
+        acceleration = Vector3.ClampMagnitude(acceleration, maxSpeed);
 
-        if (acceleration.magnitude > 0.0f)
+        Vector3 accelDir = acceleration.normalized;
+
+        float veer = velocity.x * accelDir.x + velocity.y * accelDir.y;
+        float addSpeed = acceleration.magnitude - veer;
+
+        if (addSpeed > 0.0f)
         {
-            Debug.Log(inputDir.x + " " + inputDir.z + " " + inputDir.magnitude);
+            //Debug.Log(inputDir.x + " " + inputDir.z + " " + acceleration.magnitude);
             acceleration *= groundAccelerationMultiplier * surfaceFriction * Time.deltaTime;
+            acceleration = Vector3.ClampMagnitude(acceleration, addSpeed);
             velocity += acceleration;
         }
     }

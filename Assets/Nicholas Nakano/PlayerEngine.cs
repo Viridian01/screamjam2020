@@ -28,21 +28,33 @@ public class PlayerEngine : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
     private Vector3 acceleration = Vector3.zero;
 
-    const float maxAcceleration = 10.0f;
-    const float maxSpeed = 50.0f;
+    const float brakingDeceleration = 190.5f;
+    const float maxAcceleration = 857.25f;
+    const float maxSpeed = 285.75f;
     const float groundAccelerationMultiplier = 10.0f;
-    const float surfaceFriction = 0.1f;
+    const float surfaceFriction = 1.0f;
 
     // Start is called before the first frame update
     void Start()
     {
         mainCam = Camera.main;
         charControl = gameObject.GetComponent<CharacterController>();
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Cursor.lockState != CursorLockMode.Locked)
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
+
         rotX -= Input.GetAxis("Mouse Y") * mouseSensitivity * 0.02f;
         rotY += Input.GetAxis("Mouse X") * mouseSensitivity * 0.02f;
 
@@ -64,6 +76,9 @@ public class PlayerEngine : MonoBehaviour
 
     private void Movement()
     {
+
+        ApplyFriction();
+
         playerInput.forward = Input.GetAxisRaw("Vertical");
         playerInput.side = Input.GetAxisRaw("Horizontal");
 
@@ -84,6 +99,29 @@ public class PlayerEngine : MonoBehaviour
             acceleration *= groundAccelerationMultiplier * surfaceFriction * Time.deltaTime;
             acceleration = Vector3.ClampMagnitude(acceleration, addSpeed);
             velocity += acceleration;
+        }
+
+    }
+
+    private void ApplyFriction()
+    {
+        //Friction
+
+        float relSpeed = velocity.magnitude;
+        if (relSpeed <= 0.1f)
+        {
+            return;
+        }
+
+        Vector3 oldVel = velocity;
+
+        Vector3 revAccel = brakingDeceleration * velocity.normalized;
+        velocity -= revAccel * Time.deltaTime;
+
+        if (Vector3.Dot(velocity, oldVel) <= 0.0f)
+        {
+            velocity = Vector3.zero;
+            return;
         }
     }
 

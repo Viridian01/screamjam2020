@@ -97,7 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 201f9d21a988eff49b87f46cebf3901a,
+    type: 2}
   m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
@@ -1090,6 +1091,7 @@ GameObject:
   - component: {fileID: 2049664057}
   - component: {fileID: 2049664054}
   - component: {fileID: 2049664055}
+  - component: {fileID: 2049664056}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1122,9 +1124,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2049664053}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aafc52335b794f444bbdf47488f8b0e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseSensitivity: 50
+--- !u!114 &2049664056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2049664053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1af1bfdbea8108e4380117eb5f7d3659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mouseSensitivity: 50

@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Nicholas Nakano/DevScene.unity
+    guid: bf349c9fd485a02418a769bc8b59e8e5
   m_configObjects: {}

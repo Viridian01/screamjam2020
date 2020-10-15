@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
 
 public class PlayerEngine : MonoBehaviour
@@ -15,7 +13,9 @@ public class PlayerEngine : MonoBehaviour
     Cmd playerInput;
 
     CharacterController charControl;
-    Camera mainCam;
+    public Camera playerCam;
+    public TextMeshProUGUI speedDisplay;
+    public TextMeshProUGUI accelDisplay;
 
     private float rotX = 0.0f;
     private float rotY = 0.0f;
@@ -26,18 +26,18 @@ public class PlayerEngine : MonoBehaviour
     //public float yMouseSensitivity = 30.0f;
 
     private Vector3 velocity = Vector3.zero;
-    private Vector3 acceleration = Vector3.zero;
+    private Vector3 wishDir = Vector3.zero;
+    private float wishSpeed = 0.0f;
 
-    const float brakingDeceleration = 190.5f;
-    const float maxAcceleration = 857.25f;
-    const float maxSpeed = 285.75f;
-    const float groundAccelerationMultiplier = 10.0f;
-    const float surfaceFriction = 1.0f;
+    const float brakeSpeed = 8.0f;
+    const float maxAcceleration = 10.0f;
+    const float maxSpeed = 3.0f;
+    //const float groundAccelerationMultiplier = 10.0f;
+    //const float surfaceFriction = 1.0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        mainCam = Camera.main;
         charControl = gameObject.GetComponent<CharacterController>();
 
         Cursor.visible = false;
@@ -62,22 +62,54 @@ public class PlayerEngine : MonoBehaviour
         {
             rotX = -90;
         }
-        else if(rotX > 90)
+        else if (rotX > 90)
         {
             rotX = 90;
         }
 
         transform.rotation = Quaternion.Euler(0, rotY, 0);
-        mainCam.transform.rotation = Quaternion.Euler(rotX, rotY, 0);
+        playerCam.transform.rotation = Quaternion.Euler(rotX, rotY, 0);
+
+        if (velocity.magnitude < 0.01f)
+        {
+            velocity = Vector3.zero;
+        }
 
         Movement();
         charControl.Move(velocity * Time.deltaTime);
+
+        speedDisplay.text = "Speed: " + velocity.magnitude;
+        accelDisplay.text = "Accel: " + wishDir.magnitude;
     }
 
     private void Movement()
     {
+        playerInput.forward = Input.GetAxisRaw("Vertical");
+        playerInput.side = Input.GetAxisRaw("Horizontal");
 
-        ApplyFriction();
+        wishDir = new Vector3(playerInput.side, 0, playerInput.forward);
+        wishDir = transform.TransformDirection(wishDir);
+        wishDir.Normalize();
+
+        wishSpeed = wishDir.magnitude * maxAcceleration;
+
+        if (!(wishSpeed > 0))
+        {
+            Vector3 currentDir = velocity.normalized;
+            Vector3 brakeVec = currentDir * -brakeSpeed * Time.deltaTime;
+
+            velocity += brakeVec;
+        }
+
+        Vector3 accelVec = wishDir * wishSpeed * Time.deltaTime;
+
+        velocity += accelVec;
+        velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
+    }
+
+    /*private void Movement()
+    {
+        applyFriction();
 
         playerInput.forward = Input.GetAxisRaw("Vertical");
         playerInput.side = Input.GetAxisRaw("Horizontal");
@@ -100,10 +132,9 @@ public class PlayerEngine : MonoBehaviour
             acceleration = Vector3.ClampMagnitude(acceleration, addSpeed);
             velocity += acceleration;
         }
-
     }
 
-    private void ApplyFriction()
+    private void applyFriction()
     {
         //Friction
 
@@ -123,6 +154,6 @@ public class PlayerEngine : MonoBehaviour
             velocity = Vector3.zero;
             return;
         }
-    }
+    }*/
 
 }

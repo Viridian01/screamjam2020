@@ -30,5 +30,10 @@ public class CloseEyes : MonoBehaviour
             BotLid.GetComponent<Animator>().SetTrigger("OpenBottom");
             TopLid.GetComponent<Animator>().SetTrigger("OpenTop");
         }
+
+        bool eyes = Input.GetKey(KeyCode.Space);
+
+        TopLid.GetComponent<Animator>().SetBool("Open", eyes);
+        BotLid.GetComponent<Animator>().SetBool("Open", eyes);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using System.Collections;
 
 public class PlayerEngine : MonoBehaviour
 {
@@ -17,14 +18,19 @@ public class PlayerEngine : MonoBehaviour
     public TextMeshProUGUI speedDisplay;
     public TextMeshProUGUI accelDisplay;
     public TextMeshProUGUI groundedDisplay;
+    private AudioSource footstepSoundSource;
 
     private float rotX = 0.0f;
     private float rotY = 0.0f;
 
+    public AudioClip[] footstepSounds;
+    private int footstepSoundIndex;
+    private int previousFootstepSoundIndex;
+    bool playedFootsteps;
+
+    public float footstepDelay = 0.5f;
 
     public float mouseSensitivity = 50.0f;
-    //public float xMouseSensitivity = 30.0f;
-    //public float yMouseSensitivity = 30.0f;
 
     private Vector3 velocity = Vector3.zero;
     private Vector3 wishDir = Vector3.zero;
@@ -32,7 +38,7 @@ public class PlayerEngine : MonoBehaviour
 
     const float brakeSpeed = 8.0f;
     const float maxAcceleration = 10.0f;
-    const float maxSpeed = 3.0f;
+    const float maxSpeed = 2.0f;
     const float gravAcceleration = 20.0f;
     //const float groundAccelerationMultiplier = 10.0f;
     //const float surfaceFriction = 1.0f;
@@ -41,9 +47,11 @@ public class PlayerEngine : MonoBehaviour
     void Start()
     {
         charControl = gameObject.GetComponent<CharacterController>();
+        footstepSoundSource = gameObject.GetComponent<AudioSource>();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        playedFootsteps = false;
     }
 
     // Update is called once per frame
@@ -106,6 +114,17 @@ public class PlayerEngine : MonoBehaviour
             velocity += brakeVec;
         }
 
+        if (!charControl.isGrounded)
+        {
+            StopCoroutine(PlayFootstep());
+        }
+
+        if (wishSpeed > 0 && charControl.isGrounded && !playedFootsteps)
+        {
+            playedFootsteps = true;
+            StartCoroutine(PlayFootstep());
+        }
+
         Vector3 accelVec = wishDir * wishSpeed * Time.deltaTime;
 
         velocity += accelVec;
@@ -119,6 +138,21 @@ public class PlayerEngine : MonoBehaviour
         {
             velocity.y -= gravAcceleration * Time.deltaTime;
         }
+    }
+
+    IEnumerator PlayFootstep()
+    {
+        footstepSoundIndex = Random.Range(0, footstepSounds.Length);
+        while (footstepSoundIndex == previousFootstepSoundIndex)
+        {
+            footstepSoundIndex = Random.Range(0, footstepSounds.Length);
+        }
+        AudioClip randomFootstepSound = footstepSounds[footstepSoundIndex];
+        footstepSoundSource.PlayOneShot(randomFootstepSound);
+        Debug.Log("Played footstep: " + randomFootstepSound.name);
+        previousFootstepSoundIndex = footstepSoundIndex;
+        yield return new WaitForSeconds(footstepDelay);
+        playedFootsteps = false;
     }
 
     /*private void Movement()

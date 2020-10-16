@@ -16,6 +16,7 @@ public class PlayerEngine : MonoBehaviour
     public Camera playerCam;
     public TextMeshProUGUI speedDisplay;
     public TextMeshProUGUI accelDisplay;
+    public TextMeshProUGUI groundedDisplay;
 
     private float rotX = 0.0f;
     private float rotY = 0.0f;
@@ -32,6 +33,7 @@ public class PlayerEngine : MonoBehaviour
     const float brakeSpeed = 8.0f;
     const float maxAcceleration = 10.0f;
     const float maxSpeed = 3.0f;
+    const float gravAcceleration = 20.0f;
     //const float groundAccelerationMultiplier = 10.0f;
     //const float surfaceFriction = 1.0f;
 
@@ -78,8 +80,11 @@ public class PlayerEngine : MonoBehaviour
         Movement();
         charControl.Move(velocity * Time.deltaTime);
 
-        speedDisplay.text = "Speed: " + velocity.magnitude;
+        /* Debug Information
+        groundedDisplay.text = "Grounded: " + charControl.isGrounded;
+        speedDisplay.text = "Speed: " + velocity.y;
         accelDisplay.text = "Accel: " + wishDir.magnitude;
+        */
     }
 
     private void Movement()
@@ -105,6 +110,15 @@ public class PlayerEngine : MonoBehaviour
 
         velocity += accelVec;
         velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
+
+        if (charControl.isGrounded)
+        {
+            velocity.y = -gravAcceleration * Time.deltaTime;
+        }
+        else
+        {
+            velocity.y -= gravAcceleration * Time.deltaTime;
+        }
     }
 
     /*private void Movement()

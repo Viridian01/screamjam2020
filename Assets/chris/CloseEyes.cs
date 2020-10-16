@@ -6,7 +6,9 @@ public class CloseEyes : MonoBehaviour
 {
     //Lid Objects 
     GameObject TopLid;
-    GameObject BotLid; 
+    GameObject BotLid;
+
+    bool holdingSpace = false;
 
     // Start is called before the first frame update
     void Start()
@@ -31,9 +33,14 @@ public class CloseEyes : MonoBehaviour
             TopLid.GetComponent<Animator>().SetTrigger("OpenTop");
         }
 
-        bool eyes = !Input.GetKey(KeyCode.Space);
+        holdingSpace = Input.GetKey(KeyCode.Space);
 
-        TopLid.GetComponent<Animator>().SetBool("Open", eyes);
-        BotLid.GetComponent<Animator>().SetBool("Open", eyes);
+        TopLid.GetComponent<Animator>().SetBool("Open", holdingSpace);
+        BotLid.GetComponent<Animator>().SetBool("Open", holdingSpace);
+    }
+
+    public bool EyesOpen()
+    {
+        return holdingSpace;
     }
 }

@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿/*
+using TMPro;
 using UnityEngine;
 using System.Collections;
 
@@ -36,15 +37,17 @@ public class PlayerEngine : MonoBehaviour
     private Vector3 wishDir = Vector3.zero;
     private float wishSpeed = 0.0f;
 
+    Vector3 acceleration = Vector3.zero;
+
     const float brakeSpeed = 8.0f;
-    const float maxAcceleration = 20.0f;
-    //const float maxAcceleration = 857.25f;
-    const float maxSpeed = 3.0f;
-    //const float maxSpeed = 285.75f;
+    //const float maxAcceleration = 20.0f;
+    const float maxAcceleration = 857.25f;
+    //const float maxSpeed = 2.0f;
+    const float maxSpeed = 285.75f;
     const float gravAcceleration = 50.0f;
     const float groundAccelerationMultiplier = 10.0f;
-    const float brakingDeceleration = 10.0f;
-    //const float brakingDeceleration = 190.5f;
+    //const float brakingDeceleration = 10.0f;
+    const float brakingDeceleration = 190.5f;
     const float surfaceFriction = 1.0f;
 
     // Start is called before the first frame update
@@ -93,12 +96,12 @@ public class PlayerEngine : MonoBehaviour
         charControl.Move(velocity * Time.deltaTime);
 
         // Debug Information
-        /*groundedDisplay.text = "Grounded: " + charControl.isGrounded;
+        groundedDisplay.text = "Grounded: " + charControl.isGrounded;
         speedDisplay.text = "Speed: " + velocity.magnitude;
-        accelDisplay.text = "Accel: " + wishDir.magnitude;*/
+        accelDisplay.text = "Accel: " + acceleration.magnitude;
     }
 
-    private void Movement()
+    /*private void Movement()
     {
         playerInput.forward = Input.GetAxisRaw("Vertical");
         playerInput.side = Input.GetAxisRaw("Horizontal");
@@ -166,8 +169,7 @@ public class PlayerEngine : MonoBehaviour
 
         }
     }
-
-    /*private void Movement()
+    private void Movement()
     {
         ApplyFriction();
 
@@ -192,9 +194,9 @@ public class PlayerEngine : MonoBehaviour
             acceleration = Vector3.ClampMagnitude(acceleration, addSpeed);
             velocity += acceleration;
         }
-    }*/
+    }
 
-    /*private void ApplyFriction()
+    private void ApplyFriction()
     {
         //Friction
 
@@ -216,6 +218,7 @@ public class PlayerEngine : MonoBehaviour
             velocity = Vector3.zero;
             return;
         }
-    }*/
+    }
 
 }
+*/

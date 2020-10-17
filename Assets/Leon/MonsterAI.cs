@@ -5,109 +5,78 @@ using UnityEngine.AI;
 
 public class MonsterAI : MonoBehaviour
 {
+    public GameObject player;
+    private NavMeshAgent nav;
     public Transform[] destinations;
-    public float speed;
-    private int cPos;
+    private string state = "default";
+    private bool alive = true;
+    private int dest;
+    public Transform eyes;
+    public float wait = 0f;
+    // private bool alert = false;
+    // private float alertness = 20f;
+
+    void Start()
+    {
+        nav = GetComponent<NavMeshAgent>();
+    }
 
     void Update()
     {
-        Patrol();
-    }
-
-    private void Patrol()
-    {
-        if ((transform.position.x != destinations[cPos].position.x) && (transform.position.y != destinations[cPos].position.y))
+        if (alive)
         {
-            Vector3 pos = Vector3.MoveTowards(transform.position, destinations[cPos].position, speed * Time.deltaTime);
-            GetComponent<Rigidbody>().MovePosition(pos);
+            if (state == "default")
+            {
+                // pick one of the points of destinations array
+                dest = Random.Range(0, destinations.Length);
+                nav.SetDestination(destinations[dest].position);
+                state = "walk";
+            }
+            if (state == "walk")
+            {
+                if (nav.remainingDistance <= nav.stoppingDistance && !nav.pathPending)
+                {
+                    state = "search";
+                    wait = 5f;
+                }
+            }
+            if (state == "search")
+            {
+                if (wait > 0f)
+                {
+                    wait -= Time.deltaTime;
+                    transform.Rotate(0f, 120f * Time.deltaTime, 0f);
+                }
+                else
+                {
+                    state = "default";
+                }
+            }
+            if (state == "hunt")
+            {
+                nav.destination = player.transform.position;
+            }
         }
-        else
+    }
+
+    public void Sight()
+    {
+        if (alive)
         {
-            cPos = (cPos + 1) % destinations.Length;
+            RaycastHit rayHit;
+            if (Physics.Linecast(eyes.position, player.transform.position, out rayHit))
+            {
+                if (rayHit.collider.gameObject.name == "Player")
+                {
+                    if (state != "kill")
+                    {
+                        state = "hunt";
+
+                        // increase speed when in hunting mode (we can remove this if we want)
+                        nav.speed += 3.5f;
+                    }
+                }
+            }
         }
     }
-
-    // goes to last seen position player looked at enemy
-    private void Alert()
-    {
-
-    }
-
-    private void Hunting()
-    {
-        
-    }
-
-    // public NavMeshAgent agent;
-    // public Transform player;
-    // public LayerMask theGround, thePlayer;
-    // public Vector3 point;
-    // public float walkRange;
-    // bool foundPoint;
-    // public float sightRange;
-    // public bool playerFound;
-    // // pre-determined locations
-    // public Transform[] destinations;
-
-    // // Start is called before the first frame update
-    // void Start()
-    // {
-    //     player = GameObject.Find("Player").transform;
-    //     agent = GetComponent<NavMeshAgent>();
-    // }
-
-    // // Update is called once per frame
-    // void Update()
-    // {
-    //     playerFound = CheckPlayer();
-    //     // if the player has not been found then roam
-    //     if (!playerFound)
-    //     {
-    //         Roam();
-    //     }
-    // }
-
-    // private bool CheckPlayer()
-    // {
-    //     // checks if the player is in the monster's range of sight
-    //     return Physics.CheckSphere(transform.position, sightRange, thePlayer);
-    // }
-
-    // private void Roam()
-    // {
-    //     if (!foundPoint)
-    //     {
-    //         WalkPath();
-    //     }
-    //     agent.SetDestination(point);
-
-    //     Vector3 walkDestination = transform.position - point;
-    //     // if distance walked is less than 1 then destination has been reached
-    //     if (walkDestination.magnitude < 1f)
-    //     {
-    //         foundPoint = false;
-    //     }
-    // }
-
-    // private void WalkPath()
-    // {
-    //     // random point
-    //     // float pathX = Random.Range(-walkRange, walkRange);
-    //     // float pathY = Random.Range(-walkRange, walkRange);
-
-    //     // random point destination
-    //     point = new Vector3(transform.position.x + pathX, transform.position.y, transform.position.z + pathY);
-
-    //     // check if walk destination is valid
-    //     if (Physics.Raycast(point, -transform.up, 2f, theGround))
-    //     {
-    //         foundPoint = true;
-    //     }
-    // }
-
-    // private void OnDrawGizmosSelected()
-    // {
-    //     Gizmos.color = Color.red;
-    //     Gizmos.DrawWireSphere(transform.position, sightRange);
-    // }
 }

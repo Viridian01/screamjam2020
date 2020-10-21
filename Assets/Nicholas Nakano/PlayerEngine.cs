@@ -18,13 +18,14 @@ public class PlayerEngine : MonoBehaviour
     public TextMeshProUGUI speedDisplay;
     public TextMeshProUGUI accelDisplay;
     public TextMeshProUGUI groundedDisplay;
+    public TextMeshProUGUI interactText;
     private AudioSource footstepSoundSource;
 
     private float rotX = 0.0f;
     private float rotY = 0.0f;
     public float mouseSensitivity = 50.0f;
 
-    const float interactDistance = 20.0f;
+    const float interactDistance = 2.0f;
 
     public AudioClip[] footstepSounds;
     private int footstepSoundIndex;
@@ -69,6 +70,13 @@ public class PlayerEngine : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            InteractPhysical();
+        }
+
+        ShowInteractText();
+
         rotX -= Input.GetAxis("Mouse Y") * mouseSensitivity * 0.02f;
         rotY += Input.GetAxis("Mouse X") * mouseSensitivity * 0.02f;
 
@@ -98,7 +106,7 @@ public class PlayerEngine : MonoBehaviour
         accelDisplay.text = "Accel: " + wishDir.magnitude;*/
     }
 
-    private void Movement()
+    void Movement()
     {
         playerInput.forward = Input.GetAxisRaw("Vertical");
         playerInput.side = Input.GetAxisRaw("Horizontal");
@@ -157,13 +165,65 @@ public class PlayerEngine : MonoBehaviour
         playedFootsteps = false;
     }
 
-    public void InteractPhysical()
+    void InteractPhysical()
+    {
+        InteractableObject objectInFront = ObjectInView();
+        if (objectInFront != null)
+        {
+            objectInFront.Interact(gameObject);
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    void ShowInteractText()
+    {
+        InteractableObject objectInFront = ObjectInView();
+        if (objectInFront != null)
+        {
+            interactText.enabled = true;
+            interactText.text = objectInFront.interactText;
+        }
+        else
+        {
+            interactText.text = "";
+            interactText.enabled = false;
+        }
+    }
+
+    public InteractableObject ObjectInView()
     {
         RaycastHit hitObject;
-        Ray interactRay = playerCam.ScreenPointToRay(Input.mousePosition);
+        Ray interactRay = new Ray(playerCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f)), playerCam.transform.forward);
         if (Physics.Raycast(interactRay, out hitObject, interactDistance))
         {
+            if (hitObject.collider.GetComponent<InteractableObject>() == null)
+            {
+                return null;
+            }
+            InteractableObject interactable = hitObject.collider.GetComponent<InteractableObject>();
+            return interactable;
+        }
+        else
+        {
+            return null;
+        }
+    }
 
+    public Vector3 PosInView()
+    {
+        RaycastHit hitObject;
+        Ray interactRay = new Ray(playerCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f)), playerCam.transform.forward);
+        if (Physics.Raycast(interactRay, out hitObject, interactDistance))
+        {
+            return hitObject.point;
+        }
+        else
+        {
+            Debug.Log("No valid point, returning player position.");
+            return Vector3.zero;
         }
     }
 

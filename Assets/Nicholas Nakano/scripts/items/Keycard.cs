@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Keycard : Item
 {
-    public Keycard()
+    void Awake()
     {
         itemName = "Keycard";
+        interactText = "Pick up the " + itemName;
     }
 
-    /*public override void Use()
+    public override void Interact()
     {
         
-    }*/
+    }
 }

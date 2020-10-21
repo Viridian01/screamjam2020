@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Item
+public class Item : InteractableObject
 {
     protected string itemName;
-    protected Image itemIcon;
+    Image itemIcon;
+
+    void Awake()
+    {
+        itemName = "Default Item";
+        interactText = "Pick up the " + itemName;
+    }
 
     public string Name
     {
@@ -20,16 +26,14 @@ public class Item
         }
     }
 
-    public Image Icon
+    public override void Interact(GameObject obj)
     {
-        get
+        Debug.Log("Picked up: " + itemName);
+        InventoryManager inventory = obj.GetComponent<InventoryManager>();
+        if (inventory != null)
         {
-            return itemIcon;
+            inventory.AddItem(this);
         }
-    }
-
-    public virtual void Use()
-    {
-        Debug.Log("Used: " + itemName + ".");
+        gameObject.SetActive(false);
     }
 }

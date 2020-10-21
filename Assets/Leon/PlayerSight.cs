@@ -25,11 +25,10 @@ public class PlayerSight : MonoBehaviour
     {
         // CHECK IF WE're closing our eyes...
 
-        print("check: " + CheckMonster());
         if(CheckMonster())
         {
-            print("hunting");
-            monster.Hunt();
+            print("hunting " + transform.position);
+            monster.Hunt(transform.position);
         }
     }
 

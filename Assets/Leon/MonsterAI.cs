@@ -37,7 +37,7 @@ public class MonsterAI : MonoBehaviour
                 if (nav.remainingDistance <= nav.stoppingDistance && !nav.pathPending)
                 {
                     state = "search";
-                    wait = 5f;
+                    wait = 3f;
                 }
             }
             if (state == "search")
@@ -55,10 +55,12 @@ public class MonsterAI : MonoBehaviour
             if (state == "hunt")
             {
                 nav.destination = player.transform.position;
+                // when hunting time is over, return to default state
             }
         }
     }
 
+    // enemy eyes
     public void Sight()
     {
         if (alive)
@@ -72,17 +74,16 @@ public class MonsterAI : MonoBehaviour
                     {
                         state = "hunt";
 
-                        // increase speed when in hunting mode (we can remove this if we want)
-                        nav.speed += 3.5f;
+                        //nav.speed += 3.5f;
                     }
                 }
             }
         }
     }
 
-    public void Hunt()
+    public void Hunt(Vector3 pos)
     {
-        state = "hunt";
-        // NEED TO ADD A TIMER FOR THE HUNT
+        // monster goes to player's last seen position
+        nav.destination = pos;
     }
 }

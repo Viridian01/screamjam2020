@@ -79,4 +79,10 @@ public class MonsterAI : MonoBehaviour
             }
         }
     }
+
+    public void Hunt()
+    {
+        state = "hunt";
+        // NEED TO ADD A TIMER FOR THE HUNT
+    }
 }

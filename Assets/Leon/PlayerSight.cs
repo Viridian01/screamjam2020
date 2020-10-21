@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerSight : MonoBehaviour
 {
     public Camera cam;
-    public Transform monster;
+    public Transform monsterDir;
+    public MonsterAI monster;
     public float fieldOfView = 60f;
 
     public bool alive = true;
@@ -25,7 +26,11 @@ public class PlayerSight : MonoBehaviour
         // CHECK IF WE're closing our eyes...
 
         print("check: " + CheckMonster());
-        // if true call some method in MonsterAI()
+        if(CheckMonster())
+        {
+            print("hunting");
+            monster.Hunt();
+        }
     }
 
     /// <summary>
@@ -34,7 +39,7 @@ public class PlayerSight : MonoBehaviour
     /// <returns>True if yes.</returns>
     bool CheckMonster()
     {
-        Vector3 dir = monster.position - transform.position;
+        Vector3 dir = monsterDir.position - transform.position;
         float angle = Vector3.Angle(cam.transform.forward, dir);
         bool isInFov = false;   // FOV check
 
@@ -47,7 +52,7 @@ public class PlayerSight : MonoBehaviour
         RaycastHit hit;
         if(isInFov && Physics.Raycast(cam.transform.position, dir, out hit))
         {
-            if(hit.transform == monster)
+            if(hit.transform == monsterDir)
             {
                 isInLos = true;
             }

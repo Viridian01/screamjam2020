@@ -25,7 +25,7 @@ public class PlayerEngine : MonoBehaviour
     private float rotY = 0.0f;
     public float mouseSensitivity = 50.0f;
 
-    const float interactDistance = 2.0f;
+    public float interactDistance = 2.0f;
 
     public AudioClip[] footstepSounds;
     private int footstepSoundIndex;
@@ -212,7 +212,7 @@ public class PlayerEngine : MonoBehaviour
         }
     }
 
-    public Vector3 PosInView()
+    public Vector3 RaycastView()
     {
         RaycastHit hitObject;
         Ray interactRay = new Ray(playerCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f)), playerCam.transform.forward);

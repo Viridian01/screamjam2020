@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Keycard : Item
 {
+
     void Awake()
     {
         itemName = "Keycard";

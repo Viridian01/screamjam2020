@@ -55,13 +55,14 @@ public class InventoryManager : MonoBehaviour
         Item itemToDrop = itemArray[itemSlot];
         if (itemToDrop != null)
         {
-            Vector3 pointToDrop = player.PosInView();
-            if (pointToDrop != Vector3.zero)
+            Vector3 pointToDrop = player.RaycastView();            
+            if (pointToDrop == Vector3.zero)
             {
-                itemToDrop.gameObject.SetActive(true);
-                itemToDrop.transform.position = pointToDrop;
-                itemArray[itemSlot] = null;
+                pointToDrop = player.playerCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f)) + (player.playerCam.transform.forward * player.interactDistance);
             }
+            itemToDrop.gameObject.SetActive(true);
+            itemToDrop.transform.position = pointToDrop;
+            itemArray[itemSlot] = null;
         }
     }
 }

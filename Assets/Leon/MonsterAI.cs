@@ -1,73 +1,67 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class MonsterAI : MonoBehaviour
 {
-    public GameObject player;
+    public PlayerEngine player;
     private NavMeshAgent nav;
     public Transform[] destinations;
-    private string state = "default";
-    private bool alive = true;
-    private int dest;
+
+    private enum State
+    {
+        Walk,
+        Wait,
+        Hunt
+    }
+
+    private State currentState = State.Walk;
+
     public Transform eyes;
+    public Vector3 monsterPos;
     public float wait = 0f;
     // private bool alert = false;
     // private float alertness = 20f;
-    private bool spawn = true;
-    private int pathPicker;
+
+    private LinkedDest currentNode = null;
+    static LinkedDest[] nodeCache;
 
     void Start()
     {
+        player = FindObjectOfType<PlayerEngine>();
+        monsterPos = gameObject.transform.position;
         nav = GetComponent<NavMeshAgent>();
+        InitializeNodeCache();
+        GoToNode(ClosestNode());
     }
 
     void Update()
     {
-        if (alive)
+        if (player.isAlive)
         {
-            if (state == "default")
-            {
-                // pick one of the points of destinations array
-                // dest = Random.Range(0, destinations.Length);
-                // nav.SetDestination(destinations[dest].position);
-
-                if (spawn)
-                {
-                    nav.SetDestination(destinations[0].position);
-                    spawn = false;
-                    dest = 0;
-                }
-                else
-                {
-                    pathPicker = Random.Range(0, 2);
-                    PickPath(pathPicker);
-                }
-
-                state = "walk";
-            }
-            if (state == "walk")
+            if (currentState == State.Walk)
             {
                 if (nav.remainingDistance <= nav.stoppingDistance && !nav.pathPending)
                 {
-                    state = "search";
+                    currentState = State.Wait;
                     wait = 3f;
                 }
             }
-            if (state == "search")
+            if (currentState == State.Wait)
             {
                 if (wait > 0f)
                 {
                     wait -= Time.deltaTime;
-                    transform.Rotate(0f, 120f * Time.deltaTime, 0f);
                 }
                 else
                 {
-                    state = "default";
+                    GoToNode(currentNode.GetNext());
+                    currentState = State.Walk;
                 }
             }
-            if (state == "hunt")
+            if (currentState == State.Hunt)
             {
                 nav.destination = player.transform.position;
                 // when hunting time is over, return to default state
@@ -75,60 +69,51 @@ public class MonsterAI : MonoBehaviour
         }
     }
 
-    private void PickPath(int picker)
+    private void GoToNode(LinkedDest nodeToGoTo)
     {
-        if (picker == 0)
+        nav.SetDestination(nodeToGoTo.nodeLocation);
+        if (nav.pathStatus == NavMeshPathStatus.PathComplete)
         {
-            print("going to previous");
-            if (destinations[dest].GetComponent<LinkedDest>().GetPrev())
-            {
-                nav.SetDestination(destinations[dest].GetComponent<LinkedDest>().GetPrev().position);
+            currentNode = nodeToGoTo;
+        }
+    }
 
-                // find current pos in list
-                for (int i = 0; i < destinations.Length; i++)
-                {
-                    if (destinations[i].position == destinations[dest].GetComponent<LinkedDest>().GetPrev().position)
-                    {
-                        dest = i;
-                    }
-                }
+    private void InitializeNodeCache()
+    {
+        nodeCache = FindObjectsOfType<LinkedDest>();
+    }
+
+    private LinkedDest ClosestNode()
+    {
+        LinkedDest closestNode;
+        closestNode = nodeCache[0];
+        for (int i = 0; i < nodeCache.Length; i++)
+        {
+            if (Vector3.Distance(monsterPos, nodeCache[i].nodeLocation) < Vector3.Distance(monsterPos, closestNode.nodeLocation))
+            {
+                closestNode = nodeCache[i];
             }
         }
-        if (picker == 1)
-        {
-            print("going to next");
-            if (destinations[dest].GetComponent<LinkedDest>().GetNext())
-            {
-                nav.SetDestination(destinations[dest].GetComponent<LinkedDest>().GetNext().position);
-
-                // find current pos in list
-                for (int i = 0; i < destinations.Length; i++)
-                {
-                    if (destinations[i].position == destinations[dest].GetComponent<LinkedDest>().GetNext().position)
-                    {
-                        dest = i;
-                    }
-                }
-            }
-        }
+        return closestNode;
     }
 
     // enemy eyes
     public void Sight()
     {
-        if (alive)
+        if (player.isAlive)
         {
             RaycastHit rayHit;
             if (Physics.Linecast(eyes.position, player.transform.position, out rayHit))
             {
                 if (rayHit.collider.gameObject.name == "Player")
                 {
-                    if (state != "kill")
+                    currentState = State.Hunt;
+                    /*if (currentState != "kill")
                     {
                         state = "hunt";
 
                         //nav.speed += 3.5f;
-                    }
+                    }*/
                 }
             }
         }
@@ -137,6 +122,6 @@ public class MonsterAI : MonoBehaviour
     public void Hunt(Vector3 pos)
     {
         // monster goes to player's last seen position
-        nav.destination = pos;
+        nav.SetDestination(pos);
     }
 }

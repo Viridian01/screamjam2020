@@ -4,16 +4,23 @@ using UnityEngine;
 
 public class LinkedDest : MonoBehaviour
 {
-    public Transform previous = null;
-    public Transform next = null;
+    public LinkedDest[] next = new LinkedDest[1];
+    public Vector3 nodeLocation;
 
-    public Transform GetPrev()
+    void Start()
     {
-        return previous;
+        nodeLocation = gameObject.transform.position;
     }
 
-    public Transform GetNext()
+    public LinkedDest GetNext()
     {
-        return next;
+        if (next.Length < 2)
+        {
+            return next[0];
+        }
+        else
+        {
+            return next[Random.Range(0, next.Length)];
+        }
     }
 }

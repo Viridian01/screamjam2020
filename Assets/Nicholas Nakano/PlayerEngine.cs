@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerEngine : MonoBehaviour
 {
@@ -47,6 +48,14 @@ public class PlayerEngine : MonoBehaviour
     const float brakingDeceleration = 10.0f;
     //const float brakingDeceleration = 190.5f;
     const float surfaceFriction = 1.0f;
+
+    public AnimationCurve fadeCurve = new AnimationCurve(new Keyframe(0, 1), new Keyframe(1, 0));
+    public Image blinkSheet;
+    public bool eyesClosed = false;
+    bool eyesToggledClosed = false;
+
+    public bool isAlive = true;
+
 
     // Start is called before the first frame update
     void Start()
@@ -225,6 +234,16 @@ public class PlayerEngine : MonoBehaviour
             Debug.Log("No valid point, returning player position.");
             return Vector3.zero;
         }
+    }
+
+    public void ToggleEyesClosed()
+    {
+
+    }
+
+    public void OpenEyes()
+    {
+
     }
 
     /*private void Movement()

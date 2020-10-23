@@ -101,12 +101,11 @@ public class PlayerEngine : MonoBehaviour
                 }
             }
 
-<<<<<<< Updated upstream
             if (Input.GetKeyDown(KeyCode.E))
             {
                 InteractPhysical();
             }
-=======
+
         if (Input.GetKey(KeyCode.Space))
         {
             // Start opening eyes
@@ -147,7 +146,6 @@ public class PlayerEngine : MonoBehaviour
         {
             InteractPhysical();
         }
->>>>>>> Stashed changes
 
             ShowInteractText();
 

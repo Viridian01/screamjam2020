@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerScary : MonoBehaviour
 {
     public AudioSource asource;
-    public MonsterAI monster;
     public PlayerSight sight;
     public float scaryRange = 20f;
     public float calmRate = 1f;
@@ -21,6 +20,8 @@ public class PlayerScary : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        MonsterAI monster = sight.ClosestMonster();
+
         if (!monster) return;
 
         if (monster.IsHunting() || monster.WasLookedAt())
@@ -29,7 +30,7 @@ public class PlayerScary : MonoBehaviour
 
             float a = Mathf.Lerp(0f, 1f, 1f - dist / scaryRange);
 
-            if (sight && !sight.CheckLoS()) a /= 2f;
+            if (sight && !sight.CheckLoS(monster)) a /= 2f;
 
             SetScaryIntensity(a);
             intenseCache = a;

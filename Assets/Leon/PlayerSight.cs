@@ -6,8 +6,8 @@ public class PlayerSight : MonoBehaviour
 {
     public PlayerEngine player;
     public Camera cam;
-    public Transform monsterDir;
-    public MonsterAI monster;
+    //public Transform monsterDir;
+    //public MonsterAI monster;
     public float fieldOfView = 60f;
     public CloseEyes eyes;
 
@@ -20,8 +20,12 @@ public class PlayerSight : MonoBehaviour
     public bool sanModifier;
     private int decMod = 10;
 
+    MonsterAI[] monsters;
+
     private void Start()
     {
+        monsters = FindObjectsOfType<MonsterAI>();
+
         player = FindObjectOfType<PlayerEngine>();
         currentSanity = maxSanity + 1;
         sanityBar.SetMaxSanity(maxSanity);
@@ -57,7 +61,8 @@ public class PlayerSight : MonoBehaviour
                 }
 
                 // check if player is looking at the monster when eyes are opened
-                if (CheckMonster())
+                MonsterAI monster = CheckMonster();
+                if (monster)
                 {
                     monster.HuntEyes(transform.position);
                     sanModifier = true;
@@ -132,22 +137,77 @@ public class PlayerSight : MonoBehaviour
     }
 
     // Checks if monster is in FOV
-    bool CheckMonster()
+    public MonsterAI CheckMonster()
     {
-        Vector3 dir = (monsterDir.position - transform.position).normalized;
-        float angle = Vector3.Angle(cam.transform.forward, dir);
-        bool isInFov = false;   // FOV check
-
-        if (angle <= fieldOfView)
+        foreach(MonsterAI m in monsters)
         {
-            isInFov = true;
+            Transform monsterDir = m.transform;
+
+            Vector3 dir = (monsterDir.position - transform.position).normalized;
+            float angle = Vector3.Angle(cam.transform.forward, dir);
+            bool isInFov = false;   // FOV check
+
+            if (angle <= fieldOfView)
+            {
+                isInFov = true;
+            }
+
+            if (isInFov && CheckLoS(m))
+            {
+                return m;
+            }
         }
 
-        return isInFov && CheckLoS();
+        return null;
+        
     }
 
-    public bool CheckLoS()
+    public MonsterAI ClosestMonster()
     {
+        MonsterAI closest = null;
+        float closestDist = 50f;
+
+        foreach (MonsterAI m in monsters)
+        {
+            Transform monsterDir = m.transform;
+
+            Vector3 dir = (monsterDir.position - transform.position).normalized;
+            float dist = Vector3.Angle(monsterDir.position, transform.position);
+            bool inRange = false;
+
+            if (dist <= 50f)
+            {
+                inRange = true;
+            }
+
+            float angle = Vector3.Angle(cam.transform.forward, dir);
+            bool isInFov = false;   // FOV check
+
+            if (angle <= fieldOfView)
+            {
+                isInFov = true;
+            }
+
+            if (isInFov || inRange)
+            {
+                if(dist < closestDist)
+                {
+                    closest = m;
+                    closestDist = dist;
+                }
+            }
+        }
+
+        return closest;
+
+    }
+
+    public bool CheckLoS(MonsterAI m)
+    {
+        if (!m) return false;
+
+        Transform monsterDir = m.transform;
+
         Vector3 dir = (monsterDir.position - transform.position).normalized;
 
         bool isInLos = false;   // Line of Sight check

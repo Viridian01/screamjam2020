@@ -88,7 +88,7 @@ public class MonsterAI : MonoBehaviour
             {
                 // on collision between monster and player, game over screen?
                 // print("Player Dead");
-                animator.OpenEyesDie();
+                animator.OpenEyesDie(player.gameObject);
                 player.isAlive = false;
                 wasLookedAt = false;
             }

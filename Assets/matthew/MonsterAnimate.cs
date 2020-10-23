@@ -10,7 +10,10 @@ public class MonsterAnimate : MonoBehaviour
     public MonsterAI monster;
 
     private bool kill = false;
-    public GameObject player;
+    private float killTimer = 0f;
+    private GameObject player;
+    public Vector3 playerOffset;
+    public AudioClip killSound;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +26,14 @@ public class MonsterAnimate : MonoBehaviour
     {
         if (kill)
         {
-            transform.position = player.transform.position + player.transform.forward;
+            if(killTimer >= 2f)
+            {
+                transform.position = Vector3.down * 30f;
+                return;
+            }
+
+            transform.position = player.transform.TransformPoint(playerOffset);
+            killTimer += Time.deltaTime;
             return;
         }
         else
@@ -48,8 +58,10 @@ public class MonsterAnimate : MonoBehaviour
         handsOpen.SetActive(!cover);
     }
 
-    public void OpenEyesDie()
+    public void OpenEyesDie(GameObject plyr)
     {
+        player = plyr;
+        if (killSound) AudioSource.PlayClipAtPoint(killSound, transform.position);
         SetCover(false);
         kill = true;
     }

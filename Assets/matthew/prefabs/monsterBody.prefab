@@ -349,7 +349,8 @@ MonoBehaviour:
   handsCover: {fileID: 2728172336288054098}
   handsOpen: {fileID: 1817263591712625236}
   monster: {fileID: 2102553557}
-  player: {fileID: 0}
+  playerOffset: {x: 0, y: -0.72, z: 0.3}
+  killSound: {fileID: 8300000, guid: 30953eba3fc81db4483dab6f7c74fb5f, type: 3}
 --- !u!54 &2102553562
 Rigidbody:
   m_ObjectHideFlags: 0

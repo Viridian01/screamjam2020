@@ -8,6 +8,7 @@ public class PlayerSight : MonoBehaviour
     public Transform monsterDir;
     public MonsterAI monster;
     public float fieldOfView = 60f;
+    public CloseEyes eyes;
 
     void OnTriggerEnter(Collider other)
     {
@@ -22,6 +23,7 @@ public class PlayerSight : MonoBehaviour
     private void Update()
     {
         // CHECK IF WE're closing our eyes...
+        if (eyes && !eyes.EyesOpen()) return;
 
         if(CheckMonster())
         {

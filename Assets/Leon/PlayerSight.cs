@@ -41,7 +41,6 @@ public class PlayerSight : MonoBehaviour
             // check sanity meter alive state
             if (currentSanity == 0)
             {
-                print("player is dead");
                 player.isAlive = false;
             }
 
@@ -60,7 +59,6 @@ public class PlayerSight : MonoBehaviour
                 // check if player is looking at the monster when eyes are opened
                 if (CheckMonster())
                 {
-                    print("looking at monster");
                     monster.HuntEyes(transform.position);
                     sanModifier = true;
                 }
@@ -99,7 +97,6 @@ public class PlayerSight : MonoBehaviour
             int check = currentSanity - dec;
             if (check >= 0)
             {
-                print("decreasing sanity");
                 currentSanity -= dec;
                 sanityBar.SetSanity(currentSanity);
                 wait = 0.5f;
@@ -111,7 +108,6 @@ public class PlayerSight : MonoBehaviour
             int check = currentSanity - dec;
             if (check >= 0)
             {
-                print("SPECIAL decreasing sanity");
                 currentSanity -= dec;
                 sanityBar.SetSanity(currentSanity);
                 wait = 0.5f;
@@ -124,7 +120,6 @@ public class PlayerSight : MonoBehaviour
         int check = currentSanity + dec;
         if (check <= maxSanity)
         {
-            print("increasing sanity");
             currentSanity += dec;
             sanityBar.SetSanity(currentSanity);
             wait = 0.5f;
@@ -134,7 +129,7 @@ public class PlayerSight : MonoBehaviour
     // Checks if monster is in FOV
     bool CheckMonster()
     {
-        Vector3 dir = monsterDir.position - transform.position;
+        Vector3 dir = (monsterDir.position - transform.position).normalized;
         float angle = Vector3.Angle(cam.transform.forward, dir);
         bool isInFov = false;   // FOV check
 
@@ -148,12 +143,13 @@ public class PlayerSight : MonoBehaviour
 
     public bool CheckLoS()
     {
-        Vector3 dir = monsterDir.position - transform.position;
+        Vector3 dir = (monsterDir.position - transform.position).normalized;
 
         bool isInLos = false;   // Line of Sight check
         RaycastHit hit;
         if (Physics.Raycast(cam.transform.position, dir, out hit))
         {
+            Debug.DrawLine(cam.transform.position, hit.point, Color.green, 2.0f);
             if (hit.transform == monsterDir)
             {
                 isInLos = true;

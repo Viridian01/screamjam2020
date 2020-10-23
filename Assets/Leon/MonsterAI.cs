@@ -33,7 +33,9 @@ public class MonsterAI : MonoBehaviour
         monsterPos = gameObject.transform.position;
         nav = GetComponent<NavMeshAgent>();
         InitializeNodeCache();
-        GoToNode(ClosestNode());
+        // GoToNode(ClosestNode());
+        currentNode = ClosestNode();
+        GoToNode(currentNode);
     }
 
     void Update()
@@ -42,6 +44,8 @@ public class MonsterAI : MonoBehaviour
         {
             if (currentState == State.Walk)
             {
+                // print("WALK");
+                print(nav.remainingDistance + " " + nav.stoppingDistance);
                 if (nav.remainingDistance <= nav.stoppingDistance && !nav.pathPending)
                 {
                     currentState = State.Wait;
@@ -51,6 +55,7 @@ public class MonsterAI : MonoBehaviour
             }
             if (currentState == State.Wait)
             {
+                // print("WAIT");
                 if (wait > 0f)
                 {
                     wait -= Time.deltaTime;
@@ -63,23 +68,25 @@ public class MonsterAI : MonoBehaviour
             }
             if (currentState == State.Hunt)
             {
+                // print("HUNT");
                 // when hunting time is over, return to default state
                 if (wait > 0f)
                 {
+                    // print("hunt wait time: " + wait);
                     nav.destination = player.transform.position;
                     wait -= Time.deltaTime;
                 }
                 else
                 {
-                    GoToNode(currentNode.GetNext());
                     currentState = State.Walk;
+                    GoToNode(currentNode.GetNext());
                     wasLookedAt = false;
                 }
             }
             if (currentState == State.Kill)
             {
                 // on collision between monster and player, game over screen?
-                print("Player Dead");
+                // print("Player Dead");
                 player.isAlive = false;
                 wasLookedAt = false;
             }
@@ -146,6 +153,7 @@ public class MonsterAI : MonoBehaviour
         wasLookedAt = true;
         if (player.isAlive)
         {
+            // print("path status: " + nav.pathStatus);
             // monster goes to player's last seen position
             nav.SetDestination(pos);
         }
@@ -156,6 +164,13 @@ public class MonsterAI : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             currentState = State.Kill;
+        }
+
+        if (other.gameObject.tag == "Door")
+        {
+            currentNode = ClosestNode();
+            GoToNode(currentNode);
+            currentState = State.Walk;
         }
     }
 }

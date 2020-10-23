@@ -71,48 +71,51 @@ public class PlayerEngine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Cursor.lockState != CursorLockMode.Locked)
+        if (isAlive)
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (Cursor.lockState != CursorLockMode.Locked)
             {
-                Cursor.lockState = CursorLockMode.Locked;
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                }
             }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                InteractPhysical();
+            }
+
+            ShowInteractText();
+
+            rotX -= Input.GetAxis("Mouse Y") * mouseSensitivity * 0.02f;
+            rotY += Input.GetAxis("Mouse X") * mouseSensitivity * 0.02f;
+
+            if (rotX < -90)
+            {
+                rotX = -90;
+            }
+            else if (rotX > 90)
+            {
+                rotX = 90;
+            }
+
+            transform.rotation = Quaternion.Euler(0, rotY, 0);
+            playerCam.transform.rotation = Quaternion.Euler(rotX, rotY, 0);
+
+            if (velocity.magnitude < 0.01f)
+            {
+                velocity = Vector3.zero;
+            }
+
+            Movement();
+            charControl.Move(velocity * Time.deltaTime);
+
+            // Debug Information
+            /*groundedDisplay.text = "Grounded: " + charControl.isGrounded;
+            speedDisplay.text = "Speed: " + velocity.magnitude;
+            accelDisplay.text = "Accel: " + wishDir.magnitude;*/
         }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            InteractPhysical();
-        }
-
-        ShowInteractText();
-
-        rotX -= Input.GetAxis("Mouse Y") * mouseSensitivity * 0.02f;
-        rotY += Input.GetAxis("Mouse X") * mouseSensitivity * 0.02f;
-
-        if (rotX < -90)
-        {
-            rotX = -90;
-        }
-        else if (rotX > 90)
-        {
-            rotX = 90;
-        }
-
-        transform.rotation = Quaternion.Euler(0, rotY, 0);
-        playerCam.transform.rotation = Quaternion.Euler(rotX, rotY, 0);
-
-        if (velocity.magnitude < 0.01f)
-        {
-            velocity = Vector3.zero;
-        }
-
-        Movement();
-        charControl.Move(velocity * Time.deltaTime);
-
-        // Debug Information
-        /*groundedDisplay.text = "Grounded: " + charControl.isGrounded;
-        speedDisplay.text = "Speed: " + velocity.magnitude;
-        accelDisplay.text = "Accel: " + wishDir.magnitude;*/
     }
 
     void Movement()

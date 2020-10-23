@@ -2787,6 +2787,65 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1583710895}
   m_CullTransparentMesh: 0
+--- !u!1 &1602534209
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1602534212}
+  - component: {fileID: 1602534211}
+  - component: {fileID: 1602534210}
+  m_Layer: 13
+  m_Name: WoodZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1602534210
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602534209}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.950718, y: 3.283626, z: 3.8886938}
+  m_Center: {x: -1.475359, y: 0.85516334, z: 1.4443469}
+--- !u!114 &1602534211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602534209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce15b18f70a3e5f43bb80a94a09314a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerObject: {fileID: 2049664053}
+  floor: 1
+--- !u!4 &1602534212
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602534209}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.112, y: -4.041, z: -18.36}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1633218393 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0b25a54ab60ce0048a04103990898527,
@@ -3718,7 +3777,7 @@ GameObject:
   - component: {fileID: 2049664055}
   - component: {fileID: 2049664056}
   - component: {fileID: 2049664058}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -3762,11 +3821,26 @@ MonoBehaviour:
   interactText: {fileID: 684439908}
   mouseSensitivity: 50
   interactDistance: 2
-  footstepSounds:
+  concreteSounds:
   - {fileID: 8300000, guid: f08f8351f2ae2c544a3c639b99b629ea, type: 3}
   - {fileID: 8300000, guid: ab7224fb09d95ca42bebdeafb3455b27, type: 3}
   - {fileID: 8300000, guid: 8b4c990f697dd0e4cb66f129ba212d85, type: 3}
   - {fileID: 8300000, guid: 9883d1ca84b41ae42ac3e73d12a52102, type: 3}
+  woodSounds:
+  - {fileID: 8300000, guid: f2bce530a29b65742a39e6f7d33d9515, type: 3}
+  - {fileID: 8300000, guid: 70b5c584a492b4e47af5e3035898f41d, type: 3}
+  - {fileID: 8300000, guid: 697219fe847ed944c8ff667048d1ae33, type: 3}
+  - {fileID: 8300000, guid: b3067dc6dba59034d83bb6319f829205, type: 3}
+  metalSounds:
+  - {fileID: 8300000, guid: d81d2da542d86964e951fa1f0d9f3c5a, type: 3}
+  - {fileID: 8300000, guid: c5a2df4fc2966ee48be3d56a38f162fd, type: 3}
+  - {fileID: 8300000, guid: 212cca07fe3a2cb44992957e74fb7233, type: 3}
+  - {fileID: 8300000, guid: a1900d4068264994da7b5511c875616b, type: 3}
+  tileSounds:
+  - {fileID: 8300000, guid: a4e61bc247778a84d8ec69507b2d7769, type: 3}
+  - {fileID: 8300000, guid: 9c1a251442d5f364ba83f9705e03cc80, type: 3}
+  - {fileID: 8300000, guid: 4411e312e477c0043a76e4cc1f886029, type: 3}
+  - {fileID: 8300000, guid: 344b75e3df4e5764b939b17a5b1f8865, type: 3}
   footstepDelay: 0.5
   blinkIndicator: {fileID: 592155478}
   blinkSprites:

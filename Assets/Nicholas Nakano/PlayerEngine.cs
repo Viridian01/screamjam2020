@@ -322,7 +322,10 @@ public class PlayerEngine : MonoBehaviour
         eyesToggledOpen = false;
     }
 
-    public void setFloorType(int value) { floorType=value; }
+    public void SetFloorType(int value)
+    {
+        floorType = value;
+    }
 
     /*private void Movement()
     {

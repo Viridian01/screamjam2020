@@ -7,18 +7,21 @@ public class FootstepCollider : MonoBehaviour
 {
     public GameObject playerObject;
     private PlayerEngine player;
-    public enum floorTypes {Concrete, Wood, Metal, Tile}
+    public enum FloorTypes {Concrete, Wood, Metal, Tile}
 
-    public floorTypes floor;
+    public FloorTypes floor;
 
     // Start is called before the first frame update
     void Start()
     {
-        player=playerObject.GetComponent<PlayerEngine>();
+        player = playerObject.GetComponent<PlayerEngine>();
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        player.setFloorType((int)floor);
+        if (other.gameObject == playerObject)
+        {
+            player.SetFloorType((int)floor);
+        }
     }
 }

@@ -21346,6 +21346,16 @@ PrefabInstance:
       propertyPath: fadeCurve.m_Curve.Array.data[2].time
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6553163392557405374, guid: 9d09d5db47dc36b428ad62e886874ecb,
+        type: 3}
+      propertyPath: inventoryMenu
+      value: 
+      objectReference: {fileID: 1020460762}
+    - target: {fileID: 6553163392557405374, guid: 9d09d5db47dc36b428ad62e886874ecb,
+        type: 3}
+      propertyPath: sanityBar
+      value: 
+      objectReference: {fileID: 208763595}
     - target: {fileID: 6553163392557405375, guid: 9d09d5db47dc36b428ad62e886874ecb,
         type: 3}
       propertyPath: m_Height

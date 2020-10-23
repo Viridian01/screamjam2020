@@ -71,6 +71,12 @@ public class PlayerEngine : MonoBehaviour
     Image blinkIndicator;
 
     [SerializeField]
+    GameObject inventoryMenu;
+
+    [SerializeField]
+    GameObject sanityBar;
+
+    [SerializeField]
     Sprite[] blinkSprites = new Sprite[2];
 
     public AnimationCurve fadeCurve = new AnimationCurve(new Keyframe(0, 1), new Keyframe(1, 0));
@@ -359,7 +365,10 @@ public class PlayerEngine : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        blinkSheet.gameObject.SetActive(false);
+        blinkSheet.color = new Color(0, 0, 0, 255);
+        blinkIndicator.gameObject.SetActive(false);
+        sanityBar.SetActive(false);
+        inventoryMenu.SetActive(false);
     }
 
     /*private void Movement()

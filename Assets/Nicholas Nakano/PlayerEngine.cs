@@ -39,7 +39,14 @@ public class PlayerEngine : MonoBehaviour
 
     public float interactDistance = 2.0f;
 
-    public AudioClip[] footstepSounds;
+    private int floorType = 0;
+    // first dimension of array is the floor surface
+    // second is the different sounds for surface
+    public AudioClip[] concreteSounds;
+    public AudioClip[] woodSounds;
+    public AudioClip[] metalSounds;
+    public AudioClip[] tileSounds;
+    private AudioClip[][] footstepSounds;
     private int footstepSoundIndex;
     private int previousFootstepSoundIndex;
     bool playedFootsteps;
@@ -86,6 +93,8 @@ public class PlayerEngine : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         playedFootsteps = false;
+
+        footstepSounds = new AudioClip[][] { concreteSounds, woodSounds, metalSounds, tileSounds };
 
         //ToggleEyesClosed();
     }
@@ -231,12 +240,12 @@ public class PlayerEngine : MonoBehaviour
 
     IEnumerator PlayFootstep()
     {
-        footstepSoundIndex = Random.Range(0, footstepSounds.Length);
+        footstepSoundIndex = Random.Range(0, footstepSounds[floorType].Length);
         while (footstepSoundIndex == previousFootstepSoundIndex)
         {
-            footstepSoundIndex = Random.Range(0, footstepSounds.Length);
+            footstepSoundIndex = Random.Range(0, footstepSounds[floorType].Length);
         }
-        AudioClip randomFootstepSound = footstepSounds[footstepSoundIndex];
+        AudioClip randomFootstepSound = footstepSounds[floorType][footstepSoundIndex];
         footstepSoundSource.PlayOneShot(randomFootstepSound);
         previousFootstepSoundIndex = footstepSoundIndex;
         yield return new WaitForSeconds(footstepDelay);
@@ -312,6 +321,8 @@ public class PlayerEngine : MonoBehaviour
         blinkSheet.gameObject.SetActive(true);
         eyesToggledOpen = false;
     }
+
+    public void setFloorType(int value) { floorType=value; }
 
     /*private void Movement()
     {

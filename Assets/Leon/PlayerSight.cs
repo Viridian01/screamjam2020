@@ -32,47 +32,54 @@ public class PlayerSight : MonoBehaviour
     // Line of Sight = raycast and there's something in the way
     private void Update()
     {
-        // check sanity meter alive state
-        if (currentSanity == 0)
+        if (!player.isAlive)
         {
-            print("player is dead");
-            player.isAlive = false;
+            sanityBar.SetSanity(0);
         }
-
-        // if eyes are opened decrease sanity meter
-        if (!player.eyesClosed)
+        else
         {
-            if (wait > 0f)
+            // check sanity meter alive state
+            if (currentSanity == 0)
             {
-                wait -= Time.deltaTime;
-            }
-            else
-            {
-                decreaseSanity(dec, sanModifier);
+                print("player is dead");
+                player.isAlive = false;
             }
 
-            // check if player is looking at the monster when eyes are opened
-            if (CheckMonster())
+            // if eyes are opened decrease sanity meter
+            if (!player.eyesClosed)
             {
-                print("looking at monster");
-                monster.HuntEyes(transform.position);
-                sanModifier = true;
+                if (wait > 0f)
+                {
+                    wait -= Time.deltaTime;
+                }
+                else
+                {
+                    decreaseSanity(dec, sanModifier);
+                }
+
+                // check if player is looking at the monster when eyes are opened
+                if (CheckMonster())
+                {
+                    print("looking at monster");
+                    monster.HuntEyes(transform.position);
+                    sanModifier = true;
+                }
+                else
+                {
+                    sanModifier = false;
+                }
             }
-            else
+            // if eyes are closed regenerate sanity meter
+            else if (player.eyesClosed)
             {
-                sanModifier = false;
-            }
-        }
-        // if eyes are closed regenerate sanity meter
-        else if (player.eyesClosed)
-        {
-            if (wait > 0f)
-            {
-                wait -= Time.deltaTime;
-            }
-            else
-            {
-                increaseSanity(dec);
+                if (wait > 0f)
+                {
+                    wait -= Time.deltaTime;
+                }
+                else
+                {
+                    increaseSanity(dec);
+                }
             }
         }
     }

@@ -84,6 +84,8 @@ public class PlayerEngine : MonoBehaviour
 
     public bool isAlive = true;
 
+    public DeathScreen deathScreen;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -116,7 +118,7 @@ public class PlayerEngine : MonoBehaviour
             {
                 InteractPhysical();
             }
-            
+
             if (!eyesToggledOpen)
             {
                 if (Input.GetKey(KeyCode.Space))
@@ -190,6 +192,14 @@ public class PlayerEngine : MonoBehaviour
             /*groundedDisplay.text = "Grounded: " + charControl.isGrounded;
             speedDisplay.text = "Speed: " + velocity.magnitude;
             accelDisplay.text = "Accel: " + wishDir.magnitude;*/
+        }
+        if (!isAlive)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            // open up death screen
+            deathScreen.gameObject.SetActive(true);
         }
     }
 

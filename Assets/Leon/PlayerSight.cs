@@ -155,7 +155,6 @@ public class PlayerSight : MonoBehaviour
                 isInLos = true;
             }
         }
-
         return isInLos;
     }
 }

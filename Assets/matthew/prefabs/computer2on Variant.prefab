@@ -118,6 +118,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   source: {fileID: 8884423581438974143}
+--- !u!64 &3360783763460239483
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7863456648912088469}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3942658377935866664, guid: 556e1ce3aafb5284f84cbf8d09ef392f, type: 3}
 --- !u!1001 &4613505084794989539
 PrefabInstance:
   m_ObjectHideFlags: 0

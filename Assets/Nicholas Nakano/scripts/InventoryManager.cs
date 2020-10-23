@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
@@ -7,6 +8,9 @@ public class InventoryManager : MonoBehaviour
     int inventorySlots = 4;
 
     Item[] itemArray;
+
+    [SerializeField]
+    TextMeshProUGUI[] itemNameArray;
 
     PlayerEngine player;
 
@@ -45,6 +49,7 @@ public class InventoryManager : MonoBehaviour
             if (itemArray[i] == null)
             {
                 itemArray[i] = addedItem;
+                itemNameArray[i].text = addedItem.Name;
                 break;
             }
         }
@@ -60,6 +65,7 @@ public class InventoryManager : MonoBehaviour
             {
                 pointToDrop = player.playerCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f)) + (player.playerCam.transform.forward * player.interactDistance);
             }
+            itemNameArray[itemSlot].text = "";
             itemToDrop.gameObject.SetActive(true);
             itemToDrop.transform.position = pointToDrop;
             itemArray[itemSlot] = null;

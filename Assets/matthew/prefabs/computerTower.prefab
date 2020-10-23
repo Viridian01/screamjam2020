@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3519687433967219905}
   - component: {fileID: 937125868852522055}
   - component: {fileID: 303530487643309989}
+  - component: {fileID: 2215067110417901532}
   m_Layer: 0
   m_Name: computerTower
   m_TagString: Untagged
@@ -199,3 +200,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   source: {fileID: 937125868852522055}
+--- !u!65 &2215067110417901532
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33585647464880385}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.1632797, y: 0.35887268, z: 0.32588688}
+  m_Center: {x: -0.00000005215406, y: 1.157783e-15, z: 0.16294344}

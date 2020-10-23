@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Keycard : Item
 {
-
+    public string keyCardName;
     void Awake()
     {
-        itemName = "Keycard";
+        itemName = keyCardName;
         interactText = "Pick up the " + itemName;
     }
 

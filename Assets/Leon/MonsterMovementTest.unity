@@ -2353,12 +2353,31 @@ MonoBehaviour:
   interactText: {fileID: 648911039}
   mouseSensitivity: 50
   interactDistance: 2
-  footstepSounds:
+  concreteSounds:
   - {fileID: 8300000, guid: f08f8351f2ae2c544a3c639b99b629ea, type: 3}
   - {fileID: 8300000, guid: ab7224fb09d95ca42bebdeafb3455b27, type: 3}
   - {fileID: 8300000, guid: 8b4c990f697dd0e4cb66f129ba212d85, type: 3}
   - {fileID: 8300000, guid: 9883d1ca84b41ae42ac3e73d12a52102, type: 3}
+  woodSounds:
+  - {fileID: 8300000, guid: f2bce530a29b65742a39e6f7d33d9515, type: 3}
+  - {fileID: 8300000, guid: 70b5c584a492b4e47af5e3035898f41d, type: 3}
+  - {fileID: 8300000, guid: 697219fe847ed944c8ff667048d1ae33, type: 3}
+  - {fileID: 8300000, guid: b3067dc6dba59034d83bb6319f829205, type: 3}
+  metalSounds:
+  - {fileID: 8300000, guid: d81d2da542d86964e951fa1f0d9f3c5a, type: 3}
+  - {fileID: 8300000, guid: c5a2df4fc2966ee48be3d56a38f162fd, type: 3}
+  - {fileID: 8300000, guid: 212cca07fe3a2cb44992957e74fb7233, type: 3}
+  - {fileID: 8300000, guid: a1900d4068264994da7b5511c875616b, type: 3}
+  tileSounds:
+  - {fileID: 8300000, guid: a4e61bc247778a84d8ec69507b2d7769, type: 3}
+  - {fileID: 8300000, guid: 9c1a251442d5f364ba83f9705e03cc80, type: 3}
+  - {fileID: 8300000, guid: 4411e312e477c0043a76e4cc1f886029, type: 3}
+  - {fileID: 8300000, guid: 344b75e3df4e5764b939b17a5b1f8865, type: 3}
   footstepDelay: 0.5
+  blinkIndicator: {fileID: 0}
+  blinkSprites:
+  - {fileID: 0}
+  - {fileID: 0}
   fadeCurve:
     serializedVersion: 2
     m_Curve:
@@ -2432,11 +2451,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a6d85b14949f304d816bd0b04208cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   cam: {fileID: 149493580}
   monsterDir: {fileID: 763950842}
   monster: {fileID: 763950843}
   fieldOfView: 60
-  alive: 1
+  eyes: {fileID: 0}
+  sanityBar: {fileID: 0}
+  maxSanity: 100
+  currentSanity: 0
+  wait: 0
+  sanModifier: 0
 --- !u!1 &1891106791
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,7 +18,7 @@ public class PlayerSight : MonoBehaviour
     public float wait = 0f;
 
     public bool sanModifier;
-    private int decMod = 10;
+    private int decMod = 2;
 
     MonsterAI[] monsters;
 

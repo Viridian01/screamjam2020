@@ -23,7 +23,6 @@ public class MonsterAI : MonoBehaviour
     public Vector3 monsterPos;
     public float wait = 0f;
     private LinkedDest currentNode = null;
-    private LinkedDest nextNode = null;
     static LinkedDest[] nodeCache;
 
     bool wasLookedAt = false;
@@ -45,7 +44,7 @@ public class MonsterAI : MonoBehaviour
         {
             if (currentState == State.Walk)
             {
-                //print("WALK");
+                // print("WALK");
                 // print(nav.remainingDistance + " " + nav.stoppingDistance);
                 if (nav.remainingDistance <= nav.stoppingDistance && !nav.pathPending)
                 {
@@ -61,7 +60,7 @@ public class MonsterAI : MonoBehaviour
                 {
                     wait -= Time.deltaTime;
                 }
-                else if (FinishNode())
+                else
                 {
                     GoToNode(currentNode.GetNext());
                     currentState = State.Walk;
@@ -97,16 +96,10 @@ public class MonsterAI : MonoBehaviour
     private void GoToNode(LinkedDest nodeToGoTo)
     {
         nav.SetDestination(nodeToGoTo.nodeLocation);
-        nextNode = nodeToGoTo;
-    }
-    private bool FinishNode()
-    {
         if (nav.pathStatus == NavMeshPathStatus.PathComplete)
         {
-            currentNode = nextNode;
-            return true;
+            currentNode = nodeToGoTo;
         }
-        return false;
     }
 
     private void InitializeNodeCache()
@@ -116,8 +109,6 @@ public class MonsterAI : MonoBehaviour
 
     private LinkedDest ClosestNode()
     {
-        monsterPos = transform.position;
-
         LinkedDest closestNode;
         closestNode = nodeCache[0];
         for (int i = 0; i < nodeCache.Length; i++)

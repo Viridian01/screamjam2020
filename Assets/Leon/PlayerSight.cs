@@ -9,8 +9,6 @@ public class PlayerSight : MonoBehaviour
     public MonsterAI monster;
     public float fieldOfView = 60f;
 
-    public bool alive = true;
-
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.name == "EnemyEyes")
@@ -27,8 +25,7 @@ public class PlayerSight : MonoBehaviour
 
         if(CheckMonster())
         {
-            print("hunting " + transform.position);
-            monster.Hunt(transform.position);
+            monster.HuntEyes(transform.position);
         }
     }
 

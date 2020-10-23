@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerEngine : MonoBehaviour
 {
@@ -48,6 +49,14 @@ public class PlayerEngine : MonoBehaviour
     //const float brakingDeceleration = 190.5f;
     const float surfaceFriction = 1.0f;
 
+    public AnimationCurve fadeCurve = new AnimationCurve(new Keyframe(0, 1), new Keyframe(1, 0));
+    public Image blinkSheet;
+    public bool eyesClosed = false;
+    bool eyesToggledClosed = false;
+
+    public bool isAlive = true;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -62,48 +71,51 @@ public class PlayerEngine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Cursor.lockState != CursorLockMode.Locked)
+        if (isAlive)
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (Cursor.lockState != CursorLockMode.Locked)
             {
-                Cursor.lockState = CursorLockMode.Locked;
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                }
             }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                InteractPhysical();
+            }
+
+            ShowInteractText();
+
+            rotX -= Input.GetAxis("Mouse Y") * mouseSensitivity * 0.02f;
+            rotY += Input.GetAxis("Mouse X") * mouseSensitivity * 0.02f;
+
+            if (rotX < -90)
+            {
+                rotX = -90;
+            }
+            else if (rotX > 90)
+            {
+                rotX = 90;
+            }
+
+            transform.rotation = Quaternion.Euler(0, rotY, 0);
+            playerCam.transform.rotation = Quaternion.Euler(rotX, rotY, 0);
+
+            if (velocity.magnitude < 0.01f)
+            {
+                velocity = Vector3.zero;
+            }
+
+            Movement();
+            charControl.Move(velocity * Time.deltaTime);
+
+            // Debug Information
+            /*groundedDisplay.text = "Grounded: " + charControl.isGrounded;
+            speedDisplay.text = "Speed: " + velocity.magnitude;
+            accelDisplay.text = "Accel: " + wishDir.magnitude;*/
         }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            InteractPhysical();
-        }
-
-        ShowInteractText();
-
-        rotX -= Input.GetAxis("Mouse Y") * mouseSensitivity * 0.02f;
-        rotY += Input.GetAxis("Mouse X") * mouseSensitivity * 0.02f;
-
-        if (rotX < -90)
-        {
-            rotX = -90;
-        }
-        else if (rotX > 90)
-        {
-            rotX = 90;
-        }
-
-        transform.rotation = Quaternion.Euler(0, rotY, 0);
-        playerCam.transform.rotation = Quaternion.Euler(rotX, rotY, 0);
-
-        if (velocity.magnitude < 0.01f)
-        {
-            velocity = Vector3.zero;
-        }
-
-        Movement();
-        charControl.Move(velocity * Time.deltaTime);
-
-        // Debug Information
-        /*groundedDisplay.text = "Grounded: " + charControl.isGrounded;
-        speedDisplay.text = "Speed: " + velocity.magnitude;
-        accelDisplay.text = "Accel: " + wishDir.magnitude;*/
     }
 
     void Movement()
@@ -225,6 +237,16 @@ public class PlayerEngine : MonoBehaviour
             Debug.Log("No valid point, returning player position.");
             return Vector3.zero;
         }
+    }
+
+    public void ToggleEyesClosed()
+    {
+
+    }
+
+    public void OpenEyes()
+    {
+
     }
 
     /*private void Movement()

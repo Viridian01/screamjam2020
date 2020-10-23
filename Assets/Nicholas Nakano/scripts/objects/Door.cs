@@ -11,17 +11,54 @@ public class Door : InteractableObject
 {
     private Animator doorAnimator;
 
+    public bool isLocked;
+    public string correspondingCard;
+
     void Awake()
     {
         objName = "Door";
         interactText = "Use the door.";
         doorAnimator = gameObject.GetComponent<Animator>();
+        if (isLocked)
+        {
+            interactText = "This door requires the " + correspondingCard + " to open.";
+        }
     }
 
     public override void Interact(GameObject user)
     {
-        Debug.Log("Used Door");
+        if (!isLocked)
+        {
+            OpenDoor(user);
+        }
+        else
+        {
+            InventoryManager playerInventory = user.GetComponent<InventoryManager>();
+            if (playerInventory != null)
+            {
+                if (playerInventory.CheckForItem(correspondingCard))
+                {
+                    OpenDoor(user);
+                }
+            }
+        }
+    }
 
+    DoorSides CalculateSide(Vector3 interactPos)
+    {
+        Vector3 relativePos = gameObject.transform.InverseTransformPoint(interactPos);
+        if (relativePos.x > 0)
+        {
+            return DoorSides.Inwards;
+        }
+        else
+        {
+            return DoorSides.Outwards;
+        }
+    }
+
+    void OpenDoor(GameObject user)
+    {
         switch (CalculateSide(user.transform.position))
         {
             case DoorSides.Inwards:
@@ -34,20 +71,5 @@ public class Door : InteractableObject
         doorAnimator.SetTrigger("OpenDoor");
 
         base.Interact(user);
-    }
-
-    DoorSides CalculateSide(Vector3 interactPos)
-    {
-        Vector3 relativePos = gameObject.transform.InverseTransformPoint(interactPos);
-        if (relativePos.x > 0)
-        {
-            Debug.Log("Open Inwards");
-            return DoorSides.Inwards;
-        }
-        else
-        {
-            Debug.Log("Open Outwards");
-            return DoorSides.Outwards;
-        }
     }
 }

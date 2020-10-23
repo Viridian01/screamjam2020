@@ -1,0 +1,22 @@
+# 
+# Wavefront material file
+# Created with Kaydara FBX
+# 
+
+newmtl materials_dev_reflectivity_30_vmat
+map_Kd reflectivity_30_color_tga_72d9c5c1.jpg
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.100000 0.100000 0.100000
+illum 2
+Ns 5.000000
+Tr 1.000000
+
+newmtl materials_dev_dev_measuregeneric01b_vmat
+map_Kd dev_measuregeneric01b_color_tga_29a1407b.jpg
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.100000 0.100000 0.100000
+illum 2
+Ns 5.000000
+Tr 1.000000

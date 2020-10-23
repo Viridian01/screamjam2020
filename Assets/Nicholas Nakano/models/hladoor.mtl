@@ -1,0 +1,13 @@
+# 
+# Wavefront material file
+# Created with Kaydara FBX
+# 
+
+newmtl materials_models_architecture_doors_1_door_frame_basic_001_vmat
+map_Kd 
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.100000 0.100000 0.100000
+illum 2
+Ns 5.000000
+Tr 1.000000

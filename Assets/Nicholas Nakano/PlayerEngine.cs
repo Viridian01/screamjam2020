@@ -83,6 +83,8 @@ public class PlayerEngine : MonoBehaviour
     const float timeToOpen = 2.0f;
 
     public bool isAlive = true;
+    bool win = false;
+    float winTimer = 0f;
 
     public DeathScreen deathScreen;
 
@@ -104,6 +106,17 @@ public class PlayerEngine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (win) {
+            if(winTimer >= 6f)
+            {
+                Application.Quit();
+                winTimer = -100f;
+            }
+
+            winTimer += Time.deltaTime;
+            return;
+        }
+
         if (isAlive)
         {
             if (Cursor.lockState != CursorLockMode.Locked)
@@ -337,6 +350,16 @@ public class PlayerEngine : MonoBehaviour
     public void SetFloorType(int value)
     {
         floorType = value;
+    }
+
+    public void WinGame()
+    {
+        win = true;
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        blinkSheet.gameObject.SetActive(false);
     }
 
     /*private void Movement()

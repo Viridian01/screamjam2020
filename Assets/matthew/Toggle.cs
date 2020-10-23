@@ -20,6 +20,8 @@ public class Toggle : MonoBehaviour
     public void ToggleGameObject(GameObject go)
     {
         go.SetActive(!go.activeSelf);
+
+        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void LoadScene(int index)

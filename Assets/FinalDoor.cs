@@ -17,5 +17,8 @@ public class FinalDoor : InteractableObject
     {
         base.Interact(user);
         narrationText.DisplayText("Office Hours are over.", 5);
+
+        PlayerEngine ps = user.GetComponent<PlayerEngine>();
+        if (ps) ps.WinGame();
     }
 }

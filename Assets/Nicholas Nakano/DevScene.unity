@@ -3426,6 +3426,33 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8b4c990f697dd0e4cb66f129ba212d85, type: 3}
   - {fileID: 8300000, guid: 9883d1ca84b41ae42ac3e73d12a52102, type: 3}
   footstepDelay: 0.5
+  fadeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  blinkSheet: {fileID: 0}
+  eyesClosed: 0
+  isAlive: 1
 --- !u!82 &2049664056
 AudioSource:
   m_ObjectHideFlags: 0

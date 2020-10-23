@@ -22,7 +22,12 @@ public class PlayerScary : MonoBehaviour
     {
         MonsterAI monster = sight.ClosestMonster();
 
-        if (!monster) return;
+        if (!monster)
+        {
+            intenseCache = Mathf.Lerp(intenseCache, 0f, Time.deltaTime * calmRate);
+            SetScaryIntensity(intenseCache);
+            return;
+        }
 
         if (monster.IsHunting() || monster.WasLookedAt())
         {

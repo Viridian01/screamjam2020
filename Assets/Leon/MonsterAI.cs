@@ -14,17 +14,14 @@ public class MonsterAI : MonoBehaviour
     {
         Walk,
         Wait,
-        Hunt
+        Hunt,
+        Kill
     }
 
     private State currentState = State.Walk;
-
     public Transform eyes;
     public Vector3 monsterPos;
     public float wait = 0f;
-    // private bool alert = false;
-    // private float alertness = 20f;
-
     private LinkedDest currentNode = null;
     static LinkedDest[] nodeCache;
 
@@ -63,8 +60,23 @@ public class MonsterAI : MonoBehaviour
             }
             if (currentState == State.Hunt)
             {
-                nav.destination = player.transform.position;
                 // when hunting time is over, return to default state
+                if (wait > 0f)
+                {
+                    nav.destination = player.transform.position;
+                    wait -= Time.deltaTime;
+                }
+                else
+                {
+                    GoToNode(currentNode.GetNext());
+                    currentState = State.Walk;
+                }
+            }
+            if (currentState == State.Kill)
+            {
+                // on collision between monster and player, game over screen?
+                print("Player Dead");
+                player.isAlive = false;
             }
         }
     }
@@ -108,20 +120,27 @@ public class MonsterAI : MonoBehaviour
                 if (rayHit.collider.gameObject.name == "Player")
                 {
                     currentState = State.Hunt;
-                    /*if (currentState != "kill")
-                    {
-                        state = "hunt";
-
-                        //nav.speed += 3.5f;
-                    }*/
+                    // time monster will chase the player
+                    wait = 3f;
                 }
             }
         }
     }
 
-    public void Hunt(Vector3 pos)
+    public void HuntEyes(Vector3 pos)
     {
-        // monster goes to player's last seen position
-        nav.SetDestination(pos);
+        if (player.isAlive)
+        {
+            // monster goes to player's last seen position
+            nav.SetDestination(pos);
+        }
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            currentState = State.Kill;
+        }
     }
 }

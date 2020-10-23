@@ -69,7 +69,7 @@ public class PlayerEngine : MonoBehaviour
     public AnimationCurve fadeCurve = new AnimationCurve(new Keyframe(0, 1), new Keyframe(1, 0));
     public RawImage blinkSheet;
     public bool eyesClosed = false;
-    bool eyesToggledClosed = false;
+    bool eyesToggledOpen = false;
     float eyeOpenTimer = 0.0f;
     const float eyeOpenRate = 1.1f;
     const float eyeCloseRate = 1.8f;
@@ -86,6 +86,8 @@ public class PlayerEngine : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         playedFootsteps = false;
+
+        //ToggleEyesClosed();
     }
 
     // Update is called once per frame
@@ -105,47 +107,50 @@ public class PlayerEngine : MonoBehaviour
             {
                 InteractPhysical();
             }
-
-        if (Input.GetKey(KeyCode.Space))
-        {
-            // Start opening eyes
-            if (eyesClosed)
+            
+            if (!eyesToggledOpen)
             {
-                eyesClosed = false;
-                blinkIndicator.sprite = blinkSprites[1];
-            }
-            if (eyeOpenTimer < timeToOpen)
-            {
-                eyeOpenTimer += eyeOpenRate * Time.deltaTime;
-                blinkSheet.color = new Color(0, 0, 0, fadeCurve.Evaluate(Mathf.Clamp((eyeOpenTimer / timeToOpen), 0, 1)));
-            }
-            // If eyes are fully open
-            else
-            {
-                
-            }
-        }
-        else
-        {
-            if (!eyesClosed)
-            {
-                if (eyeOpenTimer > 0.0f)
+                if (Input.GetKey(KeyCode.Space))
                 {
-                    eyeOpenTimer -= eyeCloseRate * Time.deltaTime;
-                    blinkSheet.color = new Color(0, 0, 0, fadeCurve.Evaluate(Mathf.Clamp((eyeOpenTimer / timeToOpen), 0, 1)));
+                    // Start opening eyes
+                    if (eyesClosed)
+                    {
+                        eyesClosed = false;
+                        blinkIndicator.sprite = blinkSprites[1];
+                    }
+                    if (eyeOpenTimer < timeToOpen)
+                    {
+                        eyeOpenTimer += eyeOpenRate * Time.deltaTime;
+                        blinkSheet.color = new Color(0, 0, 0, fadeCurve.Evaluate(Mathf.Clamp((eyeOpenTimer / timeToOpen), 0, 1)));
+                    }
+                    // If eyes are fully open
+                    else
+                    {
+
+                    }
                 }
                 else
                 {
-                    eyesClosed = true;
-                    blinkIndicator.sprite = blinkSprites[0];
+                    if (!eyesClosed)
+                    {
+                        if (eyeOpenTimer > 0.0f)
+                        {
+                            eyeOpenTimer -= eyeCloseRate * Time.deltaTime;
+                            blinkSheet.color = new Color(0, 0, 0, fadeCurve.Evaluate(Mathf.Clamp((eyeOpenTimer / timeToOpen), 0, 1)));
+                        }
+                        else
+                        {
+                            eyesClosed = true;
+                            blinkIndicator.sprite = blinkSprites[0];
+                        }
+                    }
                 }
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            InteractPhysical();
-        }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                InteractPhysical();
+            }
 
             ShowInteractText();
 
@@ -303,6 +308,9 @@ public class PlayerEngine : MonoBehaviour
     public void ToggleEyesClosed()
     {
 
+        blinkIndicator.gameObject.SetActive(true);
+        blinkSheet.gameObject.SetActive(true);
+        eyesToggledOpen = false;
     }
 
     /*private void Movement()

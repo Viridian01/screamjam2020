@@ -71,4 +71,16 @@ public class InventoryManager : MonoBehaviour
             itemArray[itemSlot] = null;
         }
     }
+
+    public bool CheckForItem(string itemToCheck)
+    {
+        for (int i = 0; i < itemArray.Length; i++)
+        {
+            if (itemArray[i].Name == itemToCheck)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

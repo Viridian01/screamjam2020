@@ -24,6 +24,7 @@ public class MonsterAI : MonoBehaviour
     public float wait = 0f;
     private LinkedDest currentNode = null;
     static LinkedDest[] nodeCache;
+    public MonsterAnimate animator;
 
     bool wasLookedAt = false;
 
@@ -87,6 +88,7 @@ public class MonsterAI : MonoBehaviour
             {
                 // on collision between monster and player, game over screen?
                 // print("Player Dead");
+                animator.OpenEyesDie();
                 player.isAlive = false;
                 wasLookedAt = false;
             }

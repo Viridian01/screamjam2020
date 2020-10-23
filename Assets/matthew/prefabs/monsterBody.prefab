@@ -349,6 +349,7 @@ MonoBehaviour:
   handsCover: {fileID: 2728172336288054098}
   handsOpen: {fileID: 1817263591712625236}
   monster: {fileID: 2102553557}
+  player: {fileID: 0}
 --- !u!54 &2102553562
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -635,6 +636,7 @@ MonoBehaviour:
   eyes: {fileID: 1607925322}
   monsterPos: {x: 0, y: 0, z: 0}
   wait: 0
+  animator: {fileID: 4848186505404103793}
 --- !u!114 &2102553558
 MonoBehaviour:
   m_ObjectHideFlags: 0

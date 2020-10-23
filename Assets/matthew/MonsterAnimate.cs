@@ -9,6 +9,9 @@ public class MonsterAnimate : MonoBehaviour
 
     public MonsterAI monster;
 
+    private bool kill = false;
+    public GameObject player;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,15 +21,23 @@ public class MonsterAnimate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!monster) return;
-
-        if (monster.IsHunting())
+        if (kill)
         {
-            SetCover(false);
+            transform.position = player.transform.position + player.transform.forward;
+            return;
         }
         else
         {
-            SetCover(true);
+            if (!monster) return;
+
+            if (monster.IsHunting())
+            {
+                SetCover(false);
+            }
+            else
+            {
+                SetCover(true);
+            }
         }
     }
 
@@ -35,5 +46,11 @@ public class MonsterAnimate : MonoBehaviour
         handsCover.SetActive(cover);
 
         handsOpen.SetActive(!cover);
+    }
+
+    public void OpenEyesDie()
+    {
+        SetCover(false);
+        kill = true;
     }
 }

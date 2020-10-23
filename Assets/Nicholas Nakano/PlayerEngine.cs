@@ -201,6 +201,7 @@ public class PlayerEngine : MonoBehaviour
 
             // open up death screen
             deathScreen.gameObject.SetActive(true);
+            blinkSheet.gameObject.SetActive(false);
         }
     }
 

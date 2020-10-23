@@ -222,3 +222,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactText: 
+  interactSound: {fileID: 8300000, guid: 7001f9eca722eed42a5666a3ace47166, type: 3}

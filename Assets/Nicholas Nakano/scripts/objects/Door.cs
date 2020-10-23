@@ -32,6 +32,8 @@ public class Door : InteractableObject
                 break;
         }
         doorAnimator.SetTrigger("OpenDoor");
+
+        base.Interact(user);
     }
 
     DoorSides CalculateSide(Vector3 interactPos)

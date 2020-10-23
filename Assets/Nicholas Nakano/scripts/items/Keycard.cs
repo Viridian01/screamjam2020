@@ -13,6 +13,6 @@ public class Keycard : Item
 
     public override void Interact()
     {
-        
+        base.Interact();
     }
 }

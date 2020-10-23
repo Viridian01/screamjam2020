@@ -35,5 +35,7 @@ public class Item : InteractableObject
             inventory.AddItem(this);
         }
         gameObject.SetActive(false);
+
+        base.Interact(obj);
     }
 }

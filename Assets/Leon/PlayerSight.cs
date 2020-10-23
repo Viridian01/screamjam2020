@@ -17,11 +17,15 @@ public class PlayerSight : MonoBehaviour
     private int dec = 1;
     public float wait = 0f;
 
+    public bool sanModifier;
+    private int decMod = 10;
+
     private void Start()
     {
         player = FindObjectOfType<PlayerEngine>();
         currentSanity = maxSanity + 1;
         sanityBar.SetMaxSanity(maxSanity);
+        sanModifier = false;
     }
 
     // FOV = cone or whatever
@@ -40,12 +44,11 @@ public class PlayerSight : MonoBehaviour
         {
             if (wait > 0f)
             {
-                print("delay");
                 wait -= Time.deltaTime;
             }
             else
             {
-                decreaseSanity(dec);
+                decreaseSanity(dec, sanModifier);
             }
         }
         // if eyes are closed regenerate sanity meter
@@ -53,7 +56,6 @@ public class PlayerSight : MonoBehaviour
         {
             if (wait > 0f)
             {
-                print("delay");
                 wait -= Time.deltaTime;
             }
             else
@@ -66,6 +68,11 @@ public class PlayerSight : MonoBehaviour
         if (CheckMonster())
         {
             monster.HuntEyes(transform.position);
+            sanModifier = true;
+        }
+        else
+        {
+            sanModifier = false;
         }
     }
 
@@ -77,15 +84,30 @@ public class PlayerSight : MonoBehaviour
         }
     }
 
-    private void decreaseSanity(int dec)
+    private void decreaseSanity(int dec, bool monsterLook)
     {
-        int check = currentSanity - dec;
-        if (check >= 0)
+        if (!monsterLook)
         {
-            print("decreasing sanity");
-            currentSanity -= dec;
-            sanityBar.SetSanity(currentSanity);
-            wait = 0.5f;
+            int check = currentSanity - dec;
+            if (check >= 0)
+            {
+                print("decreasing sanity");
+                currentSanity -= dec;
+                sanityBar.SetSanity(currentSanity);
+                wait = 0.5f;
+            }
+        }
+        else if (monsterLook)
+        {
+            dec = decMod;
+            int check = currentSanity - dec;
+            if (check >= 0)
+            {
+                print("SPECIAL decreasing sanity");
+                currentSanity -= dec;
+                sanityBar.SetSanity(currentSanity);
+                wait = 0.5f;
+            }
         }
     }
 

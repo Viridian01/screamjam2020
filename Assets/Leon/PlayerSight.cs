@@ -113,9 +113,16 @@ public class PlayerSight : MonoBehaviour
             isInFov = true;
         }
 
+        return isInFov && CheckLoS();
+    }
+
+    public bool CheckLoS()
+    {
+        Vector3 dir = monsterDir.position - transform.position;
+
         bool isInLos = false;   // Line of Sight check
         RaycastHit hit;
-        if (isInFov && Physics.Raycast(cam.transform.position, dir, out hit))
+        if (Physics.Raycast(cam.transform.position, dir, out hit))
         {
             if (hit.transform == monsterDir)
             {
@@ -123,6 +130,6 @@ public class PlayerSight : MonoBehaviour
             }
         }
 
-        return isInFov && isInLos;
+        return isInLos;
     }
 }

@@ -25,6 +25,8 @@ public class MonsterAI : MonoBehaviour
     private LinkedDest currentNode = null;
     static LinkedDest[] nodeCache;
 
+    bool wasLookedAt = false;
+
     void Start()
     {
         player = FindObjectOfType<PlayerEngine>();
@@ -44,6 +46,7 @@ public class MonsterAI : MonoBehaviour
                 {
                     currentState = State.Wait;
                     wait = 3f;
+                    wasLookedAt = false;
                 }
             }
             if (currentState == State.Wait)
@@ -70,6 +73,7 @@ public class MonsterAI : MonoBehaviour
                 {
                     GoToNode(currentNode.GetNext());
                     currentState = State.Walk;
+                    wasLookedAt = false;
                 }
             }
             if (currentState == State.Kill)
@@ -77,6 +81,7 @@ public class MonsterAI : MonoBehaviour
                 // on collision between monster and player, game over screen?
                 print("Player Dead");
                 player.isAlive = false;
+                wasLookedAt = false;
             }
         }
     }
@@ -127,8 +132,14 @@ public class MonsterAI : MonoBehaviour
         }
     }
 
+    public bool IsHunting()
+    {
+        return currentState == State.Hunt || wasLookedAt;
+    }
+
     public void HuntEyes(Vector3 pos)
     {
+        wasLookedAt = true;
         if (player.isAlive)
         {
             // monster goes to player's last seen position

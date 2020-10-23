@@ -109,7 +109,7 @@ public class PlayerEngine : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             // Start opening eyes
-            if (eyesClosed)
+            /*if (eyesClosed)
             {
                 eyesClosed = false;
                 blinkIndicator.sprite = blinkSprites[1];
@@ -123,13 +123,13 @@ public class PlayerEngine : MonoBehaviour
             else
             {
                 
-            }
+            }*/
         }
         else
         {
             if (!eyesClosed)
             {
-                if (eyeOpenTimer > 0.0f)
+                /*if (eyeOpenTimer > 0.0f)
                 {
                     eyeOpenTimer -= eyeCloseRate * Time.deltaTime;
                     blinkSheet.color = new Color(0, 0, 0, fadeCurve.Evaluate(Mathf.Clamp((eyeOpenTimer / timeToOpen), 0, 1)));
@@ -138,7 +138,7 @@ public class PlayerEngine : MonoBehaviour
                 {
                     eyesClosed = true;
                     blinkIndicator.sprite = blinkSprites[0];
-                }
+                }*/
             }
         }
 

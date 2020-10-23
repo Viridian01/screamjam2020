@@ -23,7 +23,7 @@ public class PlayerScary : MonoBehaviour
     {
         if (!monster) return;
 
-        if (monster.IsHunting())
+        if (monster.IsHunting() || monster.WasLookedAt())
         {
             float dist = Vector3.Distance(monster.transform.position, transform.position);
 

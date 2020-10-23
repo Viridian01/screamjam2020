@@ -134,7 +134,11 @@ public class MonsterAI : MonoBehaviour
 
     public bool IsHunting()
     {
-        return currentState == State.Hunt || wasLookedAt;
+        return currentState == State.Hunt;
+    }
+    public bool WasLookedAt()
+    {
+        return wasLookedAt;
     }
 
     public void HuntEyes(Vector3 pos)

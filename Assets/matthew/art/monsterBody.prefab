@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8807170196069170432}
   - component: {fileID: 3022722185923980314}
   m_Layer: 0
-  m_Name: hands
+  m_Name: handsOpen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -246,6 +246,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7177664596898021699}
+  - component: {fileID: 4848186505404103793}
   m_Layer: 0
   m_Name: monsterBody
   m_TagString: Untagged
@@ -270,3 +271,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4848186505404103793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554787552925932537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6794c2e77f597346b948cd64bd6edac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handsCover: {fileID: 2728172336288054098}
+  handsOpen: {fileID: 1817263591712625236}
+  monster: {fileID: 0}

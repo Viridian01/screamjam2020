@@ -45,7 +45,7 @@ public class MonsterAI : MonoBehaviour
             if (currentState == State.Walk)
             {
                 // print("WALK");
-                print(nav.remainingDistance + " " + nav.stoppingDistance);
+                // print(nav.remainingDistance + " " + nav.stoppingDistance);
                 if (nav.remainingDistance <= nav.stoppingDistance && !nav.pathPending)
                 {
                     currentState = State.Wait;

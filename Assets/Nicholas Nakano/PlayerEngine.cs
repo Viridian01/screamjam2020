@@ -195,6 +195,7 @@ public class PlayerEngine : MonoBehaviour
         }
         if (!isAlive)
         {
+            
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 

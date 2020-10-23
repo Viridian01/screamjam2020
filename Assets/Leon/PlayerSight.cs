@@ -99,18 +99,23 @@ public class PlayerSight : MonoBehaviour
             {
                 currentSanity -= dec;
                 sanityBar.SetSanity(currentSanity);
-                wait = 0.5f;
+                wait = 0.2f;
             }
         }
         else if (monsterLook)
         {
             dec = decMod;
             int check = currentSanity - dec;
-            if (check >= 0)
+            if (check > 0)
             {
                 currentSanity -= dec;
                 sanityBar.SetSanity(currentSanity);
-                wait = 0.5f;
+                wait = 0.2f;
+            }
+            if (check <= 0)
+            {
+                currentSanity = 0;
+                sanityBar.SetSanity(currentSanity);
             }
         }
     }
@@ -122,7 +127,7 @@ public class PlayerSight : MonoBehaviour
         {
             currentSanity += dec;
             sanityBar.SetSanity(currentSanity);
-            wait = 0.5f;
+            wait = 0.2f;
         }
     }
 

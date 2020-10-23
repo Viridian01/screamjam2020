@@ -50,6 +50,18 @@ public class PlayerSight : MonoBehaviour
             {
                 decreaseSanity(dec, sanModifier);
             }
+
+            // check if player is looking at the monster when eyes are opened
+            if (CheckMonster())
+            {
+                print("looking at monster");
+                monster.HuntEyes(transform.position);
+                sanModifier = true;
+            }
+            else
+            {
+                sanModifier = false;
+            }
         }
         // if eyes are closed regenerate sanity meter
         else if (player.eyesClosed)
@@ -62,17 +74,6 @@ public class PlayerSight : MonoBehaviour
             {
                 increaseSanity(dec);
             }
-        }
-
-        // check if player is looking at the monster
-        if (CheckMonster())
-        {
-            monster.HuntEyes(transform.position);
-            sanModifier = true;
-        }
-        else
-        {
-            sanModifier = false;
         }
     }
 

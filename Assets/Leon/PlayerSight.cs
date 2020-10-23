@@ -132,7 +132,7 @@ public class PlayerSight : MonoBehaviour
         {
             currentSanity += dec;
             sanityBar.SetSanity(currentSanity);
-            wait = 0.2f;
+            wait = 0.15f;
         }
     }
 

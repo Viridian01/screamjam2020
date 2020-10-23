@@ -7,6 +7,7 @@ public class CrunchyCamera : MonoBehaviour
     RenderTexture PixelView;
 
     public GameObject RenderTarget;
+    public RectTransform RenderParent;
     Vector2 res = Vector2.zero;
 
     public int TargetWidth = 320;
@@ -15,8 +16,8 @@ public class CrunchyCamera : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        int ViewWidth = Screen.width;
-        int ViewHeight = Screen.height;
+        int ViewWidth = /*Screen.width*/ Mathf.CeilToInt(RenderParent.rect.width);
+        int ViewHeight = /*Screen.height*/ Mathf.CeilToInt(RenderParent.rect.height);
 
         res = new Vector2(ViewWidth, ViewHeight);
 
@@ -33,7 +34,11 @@ public class CrunchyCamera : MonoBehaviour
 
     private void UpdateSize()
     {
-        res = new Vector2(Screen.width, Screen.height);
+        int ViewWidth = /*Screen.width*/ Mathf.CeilToInt(RenderParent.rect.width);
+        int ViewHeight = /*Screen.height*/ Mathf.CeilToInt(RenderParent.rect.height);
+
+        res = new Vector2(ViewWidth, ViewHeight);
+
         RenderTarget.GetComponent<RectTransform>().sizeDelta = res;
     }
 
